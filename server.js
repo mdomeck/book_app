@@ -19,21 +19,24 @@ const PORT = process.env.PORT || 3001;
 // app.use(express.static('./public'));
 // app.use(express.urlencoded({extended: true}));
 
-app.get('/hello', renderHomePage);
-// app.get('/newSearch', renderSearchPage);
+// app.get('/hello', renderHomePage);
+
+// app.get('/', renderHomePage);
+
+app.get('/searches/new', renderSearchPage);
 
 // app.post('/searches', collectSearchResults);
 
 
 // functions
 
-function renderHomePage(request, response){
-  response.render('pages/index');
-}
-
-// function renderSearchPage(request, response){
-//   response.render('pages/searches/new.ejs');
+// function renderHomePage(request, response){
+//   response.render('pages/index');
 // }
+
+function renderSearchPage(request, response){
+  response.render('pages/searches/new.ejs');
+}
 
 // function collectSearchResults(request, response){
 //   console.log('this is the form data:', request.body);
