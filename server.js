@@ -6,7 +6,6 @@ const app = express();
 require('dotenv').config();
 require('ejs');
 const superagent = require('superagent');
-const { response } = require('express');
 
 // set the view engine
 app.set('view engine', 'ejs');
