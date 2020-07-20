@@ -6,6 +6,7 @@ const app = express();
 require('dotenv').config();
 require('ejs');
 const superagent = require('superagent');
+const { response } = require('express');
 
 // set the view engine
 app.set('view engine', 'ejs');
@@ -59,6 +60,9 @@ superagent.get(url)
     console.log('finalBookArray results', finalBookArray);
 
     response.render('pages/searches/show.ejs', {searchResults: finalBookArray});
+  }).catch((error) => {
+    console.log('ERROR', error);
+    response.status(500).send('Sorry, something went wrong');
   })
 }
 
@@ -72,6 +76,10 @@ superagent.get(url)
     this.description = obj.description ? obj.description : ' ';
 
   }
+
+app.use('*', (request, response) => {
+  response.status(404).send('page not found');
+});
 
 // turn on the server
 app.listen(PORT, () => {
