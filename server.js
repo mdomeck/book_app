@@ -8,11 +8,11 @@ require('ejs');
 const superagent = require('superagent');
 const { response } = require('express');
 
-const pg = require('pg');
-const client = new pg.Client(process.env.DATABASE_URL);
-client.on('error', error => {
-  console.log('ERROR', error);
-});
+// const pg = require('pg');
+// const client = new pg.Client(process.env.DATABASE_URL);
+// client.on('error', error => {
+//   console.log('ERROR', error);
+// });
 
 // set the view engine
 app.set('view engine', 'ejs'); // use to parse our template
@@ -146,11 +146,11 @@ app.use('*', (request, response) => {
 });
 
 // turn on the server
-// app.listen(PORT, () => {
-//   console.log(`listening on ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
+});
 
-client.connect()
-  .then(() => {
-    app.listen(PORT, () => console.log(`listening on ${PORT}`));
-  }).catch(err => console.log('ERROR', err));
+// client.connect()
+//   .then(() => {
+//     app.listen(PORT, () => console.log(`listening on ${PORT}`));
+//   }).catch(err => console.log('ERROR', err));
