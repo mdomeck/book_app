@@ -1,0 +1,14 @@
+main {
+  display: flexbox;
+
+}
+
+header {
+  background-color: black;
+  color: white;
+  border: 2px red;
+  margin: 20px
+}
+
+
+
