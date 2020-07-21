@@ -6,13 +6,12 @@ const app = express();
 require('dotenv').config();
 require('ejs');
 const superagent = require('superagent');
-const { response } = require('express');
 
-// const pg = require('pg');
-// const client = new pg.Client(process.env.DATABASE_URL);
-// client.on('error', error => {
-//   console.log('ERROR', error);
-// });
+const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', error => {
+  console.log('ERROR', error);
+});
 
 // set the view engine
 app.set('view engine', 'ejs'); // use to parse our template
@@ -32,7 +31,7 @@ app.use(express.urlencoded({extended: true})); // decodes out response.body- bod
 
 app.get('/', renderHomePage);
 
-// app.get('/tasks/:task_id', getOneTask);
+// app.get('/books/:task_id', getOneTask);
 // app.get('/app', showForm);
 // app.post('/add', addTask);
 
@@ -41,12 +40,12 @@ app.get('/searches/new', renderSearchPage);
 app.post('/searches', collectSearchResults);
 
 
-// function getAllTasksFromDatabase(request, response) {
-//   let sql = 'SELECT * FROM tasks;';
+// function getAllFromDatabase(request, response) {
+//   let sql = 'SELECT * FROM books;';
 //   client.query(sql)
 //   .then(results => {
-//     let tasks = results.rows;
-//     response.render('index.ejs', {results: tasks});
+//     let books = results.rows;
+//     response.render('index.ejs', {results: books});
 //   })
 // }
 
@@ -55,7 +54,7 @@ app.post('/searches', collectSearchResults);
 
 //   let id = request.params.task_id;
 
-//   let sql = 'SELECT * FROM tasks WHERE id=$1;';
+//   let sql = 'SELECT * FROM books WHERE id=$1;';
 //   let safeValues = [id];
 
 //   client.query(sql, safeValues)
@@ -75,7 +74,7 @@ app.post('/searches', collectSearchResults);
 //   console.log('This is our form data', formData);
 //   let {title, desription} = request.body
 
-//   let sql = 'INSERT INTO tasks (title, description) VALUES ($1, $2)RETURNING ID;';
+//   let sql = 'INSERT INTO books (title, description) VALUES ($1, $2)RETURNING ID;';
 
 //   let safeValues = [title, description];
 
@@ -84,7 +83,7 @@ app.post('/searches', collectSearchResults);
 //     let id = results.rows[0];
 //     console.log('this should be an id', id);
 
-//     response.redirect(`/tasks/${id}`);
+//     response.redirect(`/books/${id}`);
 //   })
 // }
 
@@ -145,12 +144,12 @@ app.use('*', (request, response) => {
   response.status(404).send('page not found');
 });
 
-// turn on the server
-app.listen(PORT, () => {
-  console.log(`listening on ${PORT}`);
-});
+// // turn on the server
+// app.listen(PORT, () => {
+//   console.log(`listening on ${PORT}`);
+// });
 
-// client.connect()
-//   .then(() => {
-//     app.listen(PORT, () => console.log(`listening on ${PORT}`));
-//   }).catch(err => console.log('ERROR', err));
+client.connect()
+  .then(() => {
+    app.listen(PORT, () => console.log(`listening on ${PORT}`));
+  }).catch(err => console.log('ERROR', err));
