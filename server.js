@@ -73,7 +73,7 @@ superagent.get(url)
     this.title = obj.title ? obj.title : 'no title available';
     this.image = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
     this.authors = obj.authors ? obj.authors[0] : 'no author available';
-    this.description = obj.description ? obj.description : ' ';
+    this.description = obj.description ? obj.description : 'no description available';
 
   }
 
