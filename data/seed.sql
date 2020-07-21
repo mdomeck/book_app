@@ -1,0 +1,1 @@
+INSERT INTO tasks (title, description, contact, status) VALUES ('scholarship app', 'fill it out', 'claudio', 'pending', 'education')

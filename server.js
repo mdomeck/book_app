@@ -8,8 +8,14 @@ require('ejs');
 const superagent = require('superagent');
 const { response } = require('express');
 
+// const pg = require('pg');
+// const client = new pg.Client(process.env.DATABASE_URL);
+// client.on('error', error => {
+//   console.log('ERROR', error);
+// });
+
 // set the view engine
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); // use to parse our template
 
 
 // global variables
@@ -17,16 +23,70 @@ const PORT = process.env.PORT || 3001;
 
 // middleware
 
-app.use(express.static('./public'));
-app.use(express.urlencoded({extended: true}));
+app.use(express.static('./public')); //where out static front end is going to live
+app.use(express.urlencoded({extended: true})); // decodes out response.body- body parser
 
 // routes
 
+
+
 app.get('/', renderHomePage);
+
+// app.get('/tasks/:task_id', getOneTask);
+// app.get('/app', showForm);
+// app.post('/add', addTask);
 
 app.get('/searches/new', renderSearchPage);
 
 app.post('/searches', collectSearchResults);
+
+
+// function getAllTasksFromDatabase(request, response) {
+//   let sql = 'SELECT * FROM tasks;';
+//   client.query(sql)
+//   .then(results => {
+//     let tasks = results.rows;
+//     response.render('index.ejs', {results: tasks});
+//   })
+// }
+
+// function getOneTask(request, response){
+//   console.log('this is my request.params:', request.params);
+
+//   let id = request.params.task_id;
+
+//   let sql = 'SELECT * FROM tasks WHERE id=$1;';
+//   let safeValues = [id];
+
+//   client.query(sql, safeValues)
+//   .then(results => {
+//     console.log('this should be the task that I selected', results.rows);
+//     let selectedTask = results.rows[0];
+//     response.render('pages/detail-view', {task:selectedTask});
+//   })
+// }
+
+// function showForm(request, response){
+//   response.render('pages/');
+// }
+
+// function addTask(request, response){
+//   let formData = request.body;
+//   console.log('This is our form data', formData);
+//   let {title, desription} = request.body
+
+//   let sql = 'INSERT INTO tasks (title, description) VALUES ($1, $2)RETURNING ID;';
+
+//   let safeValues = [title, description];
+
+//   client.query(sql, safeValues)
+//   .then(results => {
+//     let id = results.rows[0];
+//     console.log('this should be an id', id);
+
+//     response.redirect(`/tasks/${id}`);
+//   })
+// }
 
 
 // functions
@@ -90,3 +150,7 @@ app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);
 });
 
+// client.connect()
+//   .then(() => {
+//     app.listen(PORT, () => console.log(`listening on ${PORT}`));
+//   }).catch(err => console.log('ERROR', err));
