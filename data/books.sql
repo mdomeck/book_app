@@ -1,0 +1,7 @@
+-- id
+-- author
+-- title
+-- isbn
+-- image_url
+-- description
+-- bookshelf
