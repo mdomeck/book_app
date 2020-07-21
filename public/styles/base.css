@@ -2,3 +2,7 @@
   background-color: #F2DCB1;
   box-sizing: border-box;
 }
+
+header {
+  margin-bottom: 20px;
+}
