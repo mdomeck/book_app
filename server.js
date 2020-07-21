@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
 
-// app.get('/hello', renderHomePage);
+// routes
 
 app.get('/', renderHomePage);
 
@@ -71,6 +71,17 @@ superagent.get(url)
     
     // const regex = /[http]+/g
     // url = url.replace(/^http:\/\//i, 'https://');
+    
+
+    let str = obj.imageLinks.smallThumbnail;
+    let regex = /^http:/
+    if(regex.test(str)) {
+      str.replace(regex, 'https:');
+    }
+
+    // let beginningUrl = 'https';
+    // let links = obj.imageLinks.smallThumbnail;
+    // links.slice(4)
 
     this.title = obj.title ? obj.title : 'no title available';
     this.image = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';

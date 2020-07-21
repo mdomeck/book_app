@@ -21,10 +21,10 @@
     <% searchResults.forEach(book => { %>
     <div class="result">
       <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
-    <div id='info'>
-      <h3><%= book.title %></h3>
-      <p><%= book.authors %></p>
-    </div>
+      <div id='info'>
+        <h3><%= book.title %></h3>
+        <p><%= book.authors %></p>
+      </div>
     <p id='description'><%= book.description %></p>
   </div>
     <%})%>
