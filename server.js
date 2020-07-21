@@ -68,7 +68,7 @@ superagent.get(url)
 
   function Book(obj){
     //does first 5 equal http: .replace with 'https'
-    // const regex = 
+    // const regex = /[http]+/g
 
     this.title = obj.title ? obj.title : 'no title available';
     this.image = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
