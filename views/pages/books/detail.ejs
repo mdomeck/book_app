@@ -29,6 +29,11 @@
     <p><%= book.isbn %></p>
     <p>Bookshelf: <%= bookSelection.bookshelf %></p>
     </section>
+
+<form action="/update/<%= book.id%>?_method=PUT" method="post">
+<input type="text">
+</form>
+
     <!-- <%})%>
   </main>
 

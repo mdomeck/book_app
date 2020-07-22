@@ -15,6 +15,12 @@ client.on('error', error => {
   console.log('ERROR', error);
 });
 
+const methodOverride = require('methos-override'); // lets us change the method in html
+
+app.use(methodOverride('_method'));
+app.put('/update/:id', updateBook)
+
+
 app.set('views', './views');
 // set the view engine
 app.set('view engine', 'ejs'); // use to parse our template
@@ -25,36 +31,33 @@ const PORT = process.env.PORT || 3001;
 
 // middleware
 app.use(express.static('./public')); //where out static front end is going to live
-app.use(express.urlencoded({extended: true})); // decodes out response.body- body parser
+app.use(express.urlencoded({ extended: true })); // decodes out response.body- body parser
 
 // routes
 app.get('/', getAllFromDatabase);
-app.get ('/books/:books_id', getOneBook);
-app.get ('/app', showResults);
-app.post ('/add', addBook);
-app.get ('/searches/new', renderSearchPage);
-app.post ('/searches', collectSearchResults);
+app.get('/books/:books_id', getOneBook);
+app.get('/app', showResults);
+app.post('/add', addBook);
+app.get('/searches/new', renderSearchPage);
+app.post('/searches', collectSearchResults);
 app.post('/addbook', addBookToFavorites);
 
 
-function getAllFromDatabase (request, response)
-{
-  let sql = 'SELECT * FROM books;';
-  client.query (sql)
-      .then (results =>
-             {
-               let books = results.rows;
-               response.render ('./pages/index', {results: books});
-             })
-      .catch(error =>
-             {
-               console.error(error);
-               response.status(500).send("Kill me please");
-             })
+function getAllFromDatabase(request, response) {
+  let sql = 'SELECT * FROM books;';
+  client.query(sql)
+    .then(results => {
+      let books = results.rows;
+      response.render('./pages/index', { results: books });
+    })
+    .catch(error => {
+      console.error(error);
+      response.status(500).send("Kill me please");
+    })
 
 }
 
-function getOneBook(request, response){
+function getOneBook(request, response) {
   console.log('this is my request.params:', request.params);
 
   let id = request.params.books_id;
@@ -63,75 +66,75 @@ function getOneBook(request, response){
   let safeValues = [id];
 
   client.query(sql, safeValues)
-  .then(results => {
-    console.log('this should be the book that I selected', results.rows);
-    let selectedBooks = results.rows[0];
-    response.render('./pages/books/show.ejs', {bookSelection:selectedBooks});
-  })
-  // return(selectedBooks.id);
+    .then(results => {
+      console.log('this should be the book that I selected', results.rows);
+      let selectedBooks = results.rows[0];
+      response.render('./pages/books/show.ejs', { bookSelection: selectedBooks });
+    })
+
 }
 
-function showResults(request, response){
+function showResults(request, response) {
   response.render('pages/books');
 }
 
-function addBook(request, response){
+function addBook(request, response) {
   let formData = request.body;
   console.log('This is our form data', formData);
-  let {title, description} = request.body
+  let { title, description } = request.body
 
   let sql = 'INSERT INTO books (title, author, description, isbn, image_url, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)RETURNING ID;';
 
-  let safeValues = [title, author, description, isbn,image_url, bookshelf];
+  let safeValues = [title, author, description, isbn, image_url, bookshelf];
 
   client.query(sql, safeValues)
-  .then(results => {
-    let id = results.rows[0];
-    console.log('this should be an id', id);
-    response.redirect(`/books/${id}`);
-  })
-  .catch(error => {
-    console.log(error);
-    response.status(500).send('Sorry, something went wrong');
-  })
+    .then(results => {
+      let id = results.rows[0];
+      console.log('this should be an id', id);
+      response.redirect(`/books/${id}`);
+    })
+    .catch(error => {
+      console.log(error);
+      response.status(500).send('Sorry, something went wrong');
+    })
 }
 
 
 // functions
 
-function renderHomePage(request, response){
+function renderHomePage(request, response) {
   response.render('pages/index.ejs');
 }
 
-function renderSearchPage(request, response){
+function renderSearchPage(request, response) {
   response.render('pages/searches/new.ejs');
 }
 
-function collectSearchResults(request, response){
+function collectSearchResults(request, response) {
   console.log('this is the form data:', request.body);
 
   let query = request.body.search[0];
   let category = request.body.search[1];
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
 
-  if(category === 'title'){url += `+intitle:${query}`}
-  if(category === 'author'){url += `+inauthor:${query}`};
+  if (category === 'title') { url += `+intitle:${query}` }
+  if (category === 'author') { url += `+inauthor:${query}` };
 
-superagent.get(url)
-  .then(results => {
-    console.log('superagents results', results.body);
-    let bookArray = results.body.items;
+  superagent.get(url)
+    .then(results => {
+      console.log('superagents results', results.body);
+      let bookArray = results.body.items;
 
-    const finalBookArray = bookArray.map(book => {
-      return new Book(book.volumeInfo);
+      const finalBookArray = bookArray.map(book => {
+        return new Book(book.volumeInfo);
+      })
+      console.log('finalBookArray results', finalBookArray);
+
+      response.render('pages/searches/show.ejs', { searchResults: finalBookArray });
+    }).catch((error) => {
+      console.log('ERROR', error);
+      response.status(500).send('Sorry, something went wrong');
     })
-    console.log('finalBookArray results', finalBookArray);
-
-    response.render('pages/searches/show.ejs', {searchResults: finalBookArray});
-  }).catch((error) => {
-    console.log('ERROR', error);
-    response.status(500).send('Sorry, something went wrong');
-  })
 }
 
 // function addBookToFavorites(request, response){
@@ -150,26 +153,36 @@ superagent.get(url)
 //   response.status(200).redirect(`/boos/${id}`);
 // })
 
-}
+// }
 
+// function updateBook(request, response) {
+//   let id = request.params.id;
+//   let { title, description...function.} = request.body;
+//   let sql = 'UPDATE books SET title= $1, description= $2 WHERE id =$6';
+//   let safeValues = { title, description, };
 
+//   client.query(sql, safeValues)
+//     .then(res => {
+//       response.status(200).redirect('/');
+//     })
+// }
 
-  function Book(obj){
+function Book(obj) {
 
-    let str = obj.imageLinks.smallThumbnail;
-    let regex = /^http:/
-    if(regex.test(str)) {
-      str.replace(regex, 'https:');
-    }
-
-    this.title = obj.title ? obj.title : 'no title available';
-    this.image = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
-    this.authors = obj.authors ? obj.authors[0] : 'no author available';
-    this.description = obj.description ? obj.description : 'no description available';
-    this.isbn = obj.industryIdentifiers[0].identifier;
-    this.bookshelf = [];
-    
+  let str = obj.imageLinks.smallThumbnail;
+  let regex = /^http:/
+  if (regex.test(str)) {
+    str.replace(regex, 'https:');
   }
+
+  this.title = obj.title ? obj.title : 'no title available';
+  this.image = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.authors = obj.authors ? obj.authors[0] : 'no author available';
+  this.description = obj.description ? obj.description : 'no description available';
+  this.isbn = obj.industryIdentifiers[0].identifier;
+  this.bookshelf = [];
+
+}
 
 app.use('*', (request, response) => {
   response.status(404).send('page not found');
