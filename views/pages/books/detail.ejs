@@ -5,13 +5,13 @@
 <section>
 <ul class="result">
   <li>
-  <img id='image' src="<%= bookSelection.image %>" />
+  <img id='image' src="<%= bookSelection.image_url %>" />
   <div id='info'>
     <h3><%= bookSelection.title %></h3>
-    <p><%= bookSelection.authors %></p>
+    <p><%= bookSelection.author %></p>
   </div>
   <p id='description'><%= bookSelection.description %></p>
-  <p><%= book.isbn %></p>
+  <p><%= bookSelection.isbn %></p>
   <p>Bookshelf: <%= bookSelection.bookshelf %></p>
   </li>
 </ul>
@@ -19,7 +19,7 @@
 <h2>Update Book</h2>
   <form action="/update/<%= books.id%>?_method=PUT" method="post">
     <input type="text" name='title' value='<%books.title %>' placeholder="Book Name" />
-    <input type="text" name='authors' value='<%books.authors %>' placeholder="Book Name" />
+    <input type="text" name='author' value='<%books.author %>' placeholder="Book Name" />
     <textarea name='description' value='<%books.description %>' placeholder="Description of the book" />
     <input type="text" name='isbn' value='<%books.isbn %>' placeholder="isbn number"/>
         <input type="text" name='bookshelf' value='<%books.bookshelf %>' placeholder="bookshelf"/>

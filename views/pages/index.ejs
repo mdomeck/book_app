@@ -23,20 +23,20 @@
     <section class='selected-books'>
       <% let counter = 0 %>
       <ul id='book-list'>
-        <% saved.forEach(books => { %>
+        
         <% results.forEach(books => { %>
         <li class='book-item' data-id="<%= books.id %>">
-          <img id='image' src="<%= books.image %>" alt="<%= books.image %>" />
+          <img id='image' src="<%= books.image_url %>" alt="<%= books.image_url %>" />
           <div id='info'>
             <h3><%= books.title %></h3>
-            <p><%= books.authors %></p>
+            <p><%= books.author %></p>
           </div>
         </li>
 
       </ul>
       <% counter++; %>
       <%  }) %>
-      <%  }) %>
+     
       <span class='counter'><%= counter %>Saved Books</span>
     </section>
   </main>
