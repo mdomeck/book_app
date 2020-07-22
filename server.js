@@ -48,6 +48,7 @@ function getAllFromDatabase (request, response)
                console.error(error);
                response.status(500).send("Kill me please");
              })
+
 }
 
 function getOneBook(request, response){
@@ -62,7 +63,7 @@ function getOneBook(request, response){
   .then(results => {
     console.log('this should be the book that I selected', results.rows);
     let selectedBooks = results.rows[0];
-    response.render('./pages/index', {books:selectedBooks});
+    response.render('./pages/books/show.ejs', {bookSelection:selectedBooks});
   })
   // return(selectedBooks.id);
 }
