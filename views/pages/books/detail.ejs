@@ -2,6 +2,9 @@
 <html>
 <body>
   <main>
+
+    <a href="../">Return to Home</a>
+
 <section>
 <ul class="result">
   <li>
@@ -17,12 +20,12 @@
 </ul>
 
 <h2>Update Book</h2>
-  <form action="/update/<%= books.id%>?_method=PUT" method="post">
-    <input type="text" name='title' value='<%books.title %>' placeholder="Book Name" />
-    <input type="text" name='author' value='<%books.author %>' placeholder="Book Name" />
-    <textarea name='description' value='<%books.description %>' placeholder="Description of the book" />
-    <input type="text" name='isbn' value='<%books.isbn %>' placeholder="isbn number"/>
-        <input type="text" name='bookshelf' value='<%books.bookshelf %>' placeholder="bookshelf"/>
+  <form action="/update/<%= bookSelection.id%>?_method=PUT" method="post">
+    <input type="text" name='title' value='<%bookSelection.title %>' placeholder="Book Name" />
+    <input type="text" name='author' value='<%bookSelection.author %>' placeholder="Book Name" />
+    <input name='description' value='<%bookSelection.description %>' placeholder="Description of the book" />
+    <input type="text" name='isbn' value='<%bookSelection.isbn %>' placeholder="isbn number"/>
+        <input type="text" name='bookshelf' value='<%bookSelection.bookshelf %>' placeholder="bookshelf"/>
         <button type="submit">Update this book</button>
       </form>
     </section>
