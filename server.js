@@ -15,13 +15,11 @@ client.on('error', error => {
   console.log('ERROR', error);
 });
 
-const methodOverride = require('methos-override'); // lets us change the method in html
-
-app.use(methodOverride('_method'));
-app.put('/update/:id', updateBook)
+const methodOverride = require('method-override'); // lets us change the method in html
 
 
-app.set('views', './views');
+
+// app.set('views', './views');
 // set the view engine
 app.set('view engine', 'ejs'); // use to parse our template
 
@@ -32,6 +30,7 @@ const PORT = process.env.PORT || 3001;
 // middleware
 app.use(express.static('./public')); //where out static front end is going to live
 app.use(express.urlencoded({ extended: true })); // decodes out response.body- body parser
+app.use(methodOverride('_method'));
 
 // routes
 app.get('/', getAllFromDatabase);
@@ -41,6 +40,7 @@ app.post('/add', addBook);
 app.get('/searches/new', renderSearchPage);
 app.post('/searches', collectSearchResults);
 app.post('/addbook', addBookToFavorites);
+app.put('/update/:id', updateBook);
 
 
 function getAllFromDatabase(request, response) {
@@ -49,6 +49,7 @@ function getAllFromDatabase(request, response) {
     .then(results => {
       let books = results.rows;
       response.render('./pages/index', { results: books });
+      console.log(what we are getting )
     })
     .catch(error => {
       console.error(error);
@@ -137,35 +138,35 @@ function collectSearchResults(request, response) {
     })
 }
 
-// function addBookToFavorites(request, response){
-//   console.log('this is my form data from my add to favs', request.body);
+function addBookToFavorites(request, response){
+  console.log('this is my form data from my add to favs', request.body);
 
-//   let {author, title, image, description} = request.body;
+  let {author, title, image, description} = request.body;
 
-//   let sql = 'INSERT INTO books (author, title, image_url, decription) VALUES ($1, $2, $3, $4) RETURNING id;';
+  let sql = 'INSERT INTO books (author, title, image_url, decription) VALUES ($1, $2, $3, $4) RETURNING id;';
 
-// let safeValues = [author title, image, description];
+let safeValues = [author, title, image, description];
 
-// client.query(sql, safeValues)
-// .then(results => {
-//   console.log('sql results', results.rows[0].id);
-//   let id = results.rows[0].id;
-//   response.status(200).redirect(`/boos/${id}`);
-// })
+client.query(sql, safeValues)
+.then(results => {
+  console.log('sql results', results.rows[0].id);
+  let id = results.rows[0].id;
+  response.status(200).redirect(`/books/${id}`);
+})
 
-// }
+}
 
-// function updateBook(request, response) {
-//   let id = request.params.id;
-//   let { title, description...function.} = request.body;
-//   let sql = 'UPDATE books SET title= $1, description= $2 WHERE id =$6';
-//   let safeValues = { title, description, };
+function updateBook(request, response) {
+  let id = request.params.id;
+  let { title, authors, description, isbn, image_url, bookshelf} = request.body;
+  let sql = 'UPDATE books SET title=$1, author=$2, description=$3, isbn=$4, image_url=$5, bookshelf=$6 WHERE id =$7';
+  let safeValues = { title, authors, description, isbn, image_url, bookshelf };
 
-//   client.query(sql, safeValues)
-//     .then(res => {
-//       response.status(200).redirect('/');
-//     })
-// }
+  client.query(sql, safeValues)
+    .then(res => {
+      response.status(200).redirect('/');
+    })
+}
 
 function Book(obj) {
 

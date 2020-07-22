@@ -1,42 +1,33 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
 
-<head> -->
-  <!-- <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles/reset.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/modules.css">
-  <title>Book Collection</title> -->
-<!-- </head>
-
+<html>
 <body>
-  <header id="search-header">
-    <div id='title'>Best Books!</div>
-    <nav></nav>
-  </header>
+  <main>
+<section>
+<ul class="result">
+  <li>
+  <img id='image' src="<%= bookSelection.image %>" />
+  <div id='info'>
+    <h3><%= bookSelection.title %></h3>
+    <p><%= bookSelection.authors %></p>
+  </div>
+  <p id='description'><%= bookSelection.description %></p>
+  <p><%= book.isbn %></p>
+  <p>Bookshelf: <%= bookSelection.bookshelf %></p>
+  </li>
+</ul>
 
-  <main id='main'>
-    <% searchResults.forEach(book => { %> -->
-    <section class="result">
-      <img id='image' src="<%= bookSelection.image %>" />
-      <div id='info'>
-        <h3><%= bookSelection.title %></h3>
-        <p><%= bookSelection.authors %></p>
-      </div>
-    <p id='description'><%= bookSelection.description %></p>
-    <p><%= book.isbn %></p>
-    <p>Bookshelf: <%= bookSelection.bookshelf %></p>
+<h2>Update Book</h2>
+  <form action="/update/<%= books.id%>?_method=PUT" method="post">
+    <input type="text" name='title' value='<%books.title %>' placeholder="Book Name" />
+    <input type="text" name='authors' value='<%books.authors %>' placeholder="Book Name" />
+    <textarea name='description' value='<%books.description %>' placeholder="Description of the book" />
+    <input type="text" name='isbn' value='<%books.isbn %>' placeholder="isbn number"/>
+        <input type="text" name='bookshelf' value='<%books.bookshelf %>' placeholder="bookshelf"/>
+        <button type="submit">Update this book</button>
+      </form>
     </section>
+   </main>
+     </body>
+     </html>
 
-<form action="/update/<%= book.id%>?_method=PUT" method="post">
-<input type="text">
-</form>
-
-    <!-- <%})%>
-  </main>
-
-</body>
-
-</html> -->
+ 

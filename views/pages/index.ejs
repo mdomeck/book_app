@@ -14,34 +14,28 @@
 <body>
   <main>
     <header>
-      <h1>Beat Books!</h1>
-      <!-- <%- include('pages/layout/header.ejs') %> -->
+      <h1>Best Books!</h1>
+     
       <nav>
-
-
-        <!-- Anything that is saved in the database -->
 
       </nav>
     </header>
     <section class='selected-books'>
-      <% let counter = 0; %>
-      <% saved.forEach(book => { %>
-
+      <% let counter = 0 %>
       <ul id='book-list'>
-
-
+        <% saved.forEach(books => { %>
         <% results.forEach(books => { %>
         <li class='book-item' data-id="<%= books.id %>">
-          <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
+          <img id='image' src="<%= books.image %>" alt="<%= books.image %>" />
           <div id='info'>
-            <h3><%= book.title %></h3>
-            <p><%= book.authors %></p>
+            <h3><%= books.title %></h3>
+            <p><%= books.authors %></p>
           </div>
-          <!-- <p id='description'><%= book.description %></p> -->
         </li>
 
       </ul>
       <% counter++; %>
+      <%  }) %>
       <%  }) %>
       <span class='counter'><%= counter %>Saved Books</span>
     </section>
