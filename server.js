@@ -79,7 +79,7 @@ function addBook(request, response){
 
   let sql = 'INSERT INTO books (title, author, description, isbn, image_url, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)RETURNING ID;';
 
-  let safeValues = [title, author, description, isbn,image_url, bookshelf];
+  let safeValues = [title, author, description, isbn, image_url, bookshelf];
 
   client.query(sql, safeValues)
   .then(results => {
