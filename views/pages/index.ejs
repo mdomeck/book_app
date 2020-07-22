@@ -28,6 +28,8 @@
       <% saved.forEach(book => { %>
 
       <ul id='book-list'>
+
+
         <% results.forEach(books => { %>
         <li class='book-item' data-id="<%= books.id %>">
           <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
@@ -37,6 +39,7 @@
           </div>
           <!-- <p id='description'><%= book.description %></p> -->
         </li>
+
       </ul>
       <% counter++; %>
       <%  }) %>

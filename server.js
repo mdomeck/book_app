@@ -13,6 +13,7 @@ client.on('error', error => {
   console.log('ERROR', error);
 });
 
+app.set('views', './views');
 // set the view engine
 app.set('view engine', 'ejs'); // use to parse our template
 
@@ -21,26 +22,33 @@ app.set('view engine', 'ejs'); // use to parse our template
 const PORT = process.env.PORT || 3001;
 
 // middleware
-
 app.use(express.static('./public')); //where out static front end is going to live
 app.use(express.urlencoded({extended: true})); // decodes out response.body- body parser
 
 // routes
-// app.get('/', renderHomePage);
-app.get('/books/:id', getOneBook);
-app.get('/app', showResults);
-app.post('/add', addBook);
-app.get('/searches/new', renderSearchPage);
-app.post('/searches', collectSearchResults);
+app.get('/', getAllFromDatabase);
+app.get ('/books/:books_id', getOneBook);
+app.get ('/app', showResults);
+app.post ('/add', addBook);
+app.get ('/searches/new', renderSearchPage);
+app.post ('/searches', collectSearchResults);
 
 
-function getAllFromDatabase(request, response) {
-  let sql = 'SELECT * FROM books;';
-  client.query(sql)
-  .then(results => {
-    let books = results.rows;
-    response.render('index.ejs', {results: books});
-  })
+function getAllFromDatabase (request, response)
+{
+  let sql = 'SELECT * FROM books;';
+  client.query (sql)
+      .then (results =>
+             {
+               let books = results.rows;
+               response.render ('./pages/index', {results: books});
+             })
+      .catch(error =>
+             {
+               console.error(error);
+               response.status(500).send("Kill me please");
+             })
+
 }
 
 function getOneBook(request, response){
@@ -67,7 +75,7 @@ function showResults(request, response){
 function addBook(request, response){
   let formData = request.body;
   console.log('This is our form data', formData);
-  let {title, desription} = request.body
+  let {title, description} = request.body
 
   let sql = 'INSERT INTO books (title, author, description, isbn, image_url, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)RETURNING ID;';
 
@@ -79,13 +87,17 @@ function addBook(request, response){
     console.log('this should be an id', id);
     response.redirect(`/books/${id}`);
   })
+  .catch(error => {
+    console.log(error);
+    response.status(500).send('Sorry, something went wrong');
+  })
 }
 
 
 // functions
 
 function renderHomePage(request, response){
-  response.render('pages/index');
+  response.render('pages/index.ejs');
 }
 
 function renderSearchPage(request, response){
