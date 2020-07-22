@@ -19,7 +19,7 @@
     </header>
     <section class='selected-books'>
       <ul id='book-list'>
-        <% results.forEach(books => { %>
+        <% searchResults.forEach(books => { %>
           <li class='book-item' data-id="<%= books.id %>">
             <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
             <div id='info'>
