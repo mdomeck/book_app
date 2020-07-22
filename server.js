@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended: true})); // decodes out response.body- bod
 
 // routes
 // app.get('/', renderHomePage);
-app.get('/books/:books_id', getOneBook);
+app.get('/books/:id', getOneBook);
 app.get('/app', showResults);
 app.post('/add', addBook);
 app.get('/searches/new', renderSearchPage);
@@ -55,7 +55,7 @@ function getOneBook(request, response){
   .then(results => {
     console.log('this should be the book that I selected', results.rows);
     let selectedBooks = results.rows[0];
-    response.render('./pages/index', {books:selectedBooks});
+    response.render('./pages/books/show.ejs', {bookSelection:selectedBooks});
   })
   // return(selectedBooks.id);
 }
