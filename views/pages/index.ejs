@@ -10,40 +10,28 @@
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
 </head>
-
 <body>
   <main>
     <header>
       <h1>Beat Books!</h1>
-      <!-- <%- include('pages/layout/header.ejs') %> -->
       <nav>
-
-
-        <!-- Anything that is saved in the database -->
-
       </nav>
     </header>
-    <section class='selected-books'>
-      <% let counter = 0; %>
-      <% saved.forEach(book => { %>
-
+    <section class='selected-books'>    
       <ul id='book-list'>
-
-
+        <% let counter = 0; %>
         <% results.forEach(books => { %>
-        <li class='book-item' data-id="<%= books.id %>">
-          <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
-          <div id='info'>
-            <h3><%= book.title %></h3>
-            <p><%= book.authors %></p>
-          </div>
-          <!-- <p id='description'><%= book.description %></p> -->
-        </li>
-
-      </ul>
-      <% counter++; %>
-      <%  }) %>
-      <span class='counter'><%= counter %>Saved Books</span>
+          <li class='book-item' data-id="<%= books.id %>">
+            <img id='image' src="<%= books.image %>" alt="<%= books.image %>" />
+            <div id='info'>
+              <h3><%= books.title %></h3>
+              <p><%= books.authors %></p>
+            </div>
+          </li>
+        </ul>
+        <% counter++; %>
+        <%  }) %>
+        <span class='counter'><%= counter %>Saved Books</span>
     </section>
   </main>
 </body>
