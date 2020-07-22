@@ -16,21 +16,23 @@
     <header>
       <h1>Best Books!</h1>
      
-      <nav>
-
-      </nav>
+      <a href="searches/new">Search New Book</a>     
     </header>
     <section class='selected-books'>
       <% let counter = 0 %>
+      
+      
       <ul id='book-list'>
         
+        
         <% results.forEach(books => { %>
-        <li class='book-item' data-id="<%= books.id %>">
-          <img id='image' src="<%= books.image_url %>" alt="<%= books.image_url %>" />
-          <div id='info'>
-            <h3><%= books.title %></h3>
-            <p><%= books.author %></p>
-          </div>
+          <li class='book-item' data-id="<%= books.id %>">
+            <img id='image' src="<%= books.image_url %>" alt="<%= books.image_url %>" />
+            <div id='info'>
+              <h3><%= books.title %></h3>
+              <p><%= books.author %></p>
+            </div>
+            
         </li>
 
       </ul>
