@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head> -->
   <!-- <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/styles/reset.css">
@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
   <title>Book Collection</title> -->
-</head>
+<!-- </head>
 
 <body>
   <header id="search-header">
@@ -18,20 +18,25 @@
   </header>
 
   <main id='main'>
-    <% searchResults.forEach(book => { %>
-    <div class="result">
-      <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
+    <% searchResults.forEach(book => { %> -->
+    <section class="result">
+      <img id='image' src="<%= bookSelection.image %>" />
       <div id='info'>
-        <h3><%= book.title %></h3>
-        <p><%= book.authors %></p>
+        <h3><%= bookSelection.title %></h3>
+        <p><%= bookSelection.authors %></p>
       </div>
-    <p id='description'><%= book.description %></p>
+    <p id='description'><%= bookSelection.description %></p>
     <p><%= book.isbn %></p>
-    <p>Bookshelf: <%= book.bookshelf %></p>
-  </div>
-    <%})%>
+    <p>Bookshelf: <%= bookSelection.bookshelf %></p>
+    </section>
+
+<form action="/update/<%= book.id%>?_method=PUT" method="post">
+<input type="text">
+</form>
+
+    <!-- <%})%>
   </main>
 
 </body>
 
-</html>
+</html> -->
