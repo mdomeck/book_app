@@ -15,13 +15,11 @@ client.on('error', error => {
   console.log('ERROR', error);
 });
 
-const methodOverride = require('methos-override'); // lets us change the method in html
-
-app.use(methodOverride('_method'));
-app.put('/update/:id', updateBook)
+const methodOverride = require('method-override'); // lets us change the method in html
 
 
-app.set('views', './views');
+
+// app.set('views', './views');
 // set the view engine
 app.set('view engine', 'ejs'); // use to parse our template
 
@@ -32,15 +30,16 @@ const PORT = process.env.PORT || 3001;
 // middleware
 app.use(express.static('./public')); //where out static front end is going to live
 app.use(express.urlencoded({ extended: true })); // decodes out response.body- body parser
+app.use(methodOverride('_method'));
 
 // routes
 app.get('/', getAllFromDatabase);
 app.get('/books/:books_id', getOneBook);
 app.get('/app', showResults);
-app.post('/add', addBook);
+app.post('/addbook', addBook);
 app.get('/searches/new', renderSearchPage);
 app.post('/searches', collectSearchResults);
-app.post('/addbook', addBookToFavorites);
+app.put('/update/:id', updateBook);
 
 
 function getAllFromDatabase(request, response) {
@@ -81,17 +80,17 @@ function showResults(request, response) {
 function addBook(request, response) {
   let formData = request.body;
   console.log('This is our form data', formData);
-  let { title, description } = request.body
+  let { author, title, isbn, image_url, description, bookshelf } = request.body
 
-  let sql = 'INSERT INTO books (title, author, description, isbn, image_url, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)RETURNING ID;';
+  let sql = 'INSERT INTO books (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID;';
 
-  let safeValues = [title, author, description, isbn, image_url, bookshelf];
+  let safeValues = [author, title, isbn, image_url, description, bookshelf];
 
   client.query(sql, safeValues)
     .then(results => {
-      let id = results.rows[0];
-      console.log('this should be an id', id);
-      response.redirect(`/books/${id}`);
+      let books_id = results.rows[0].id;
+      console.log('this should be an id', books_id);
+      response.redirect(`/books/${books_id}`);
     })
     .catch(error => {
       console.log(error);
@@ -101,10 +100,6 @@ function addBook(request, response) {
 
 
 // functions
-
-function renderHomePage(request, response) {
-  response.render('pages/index.ejs');
-}
 
 function renderSearchPage(request, response) {
   response.render('pages/searches/new.ejs');
@@ -137,35 +132,17 @@ function collectSearchResults(request, response) {
     })
 }
 
-// function addBookToFavorites(request, response){
-//   console.log('this is my form data from my add to favs', request.body);
+function updateBook(request, response) {
+  let id = request.params.id;
+  let { title, author, description, isbn, image_url, bookshelf } = request.body;
+  let sql = 'UPDATE books SET title=$1, author=$2, description=$3, isbn=$4, image_url=$5, bookshelf=$6 WHERE id =$7';
+  let safeValues = { title, author, description, isbn, image_url, bookshelf };
 
-//   let {author, title, image, description} = request.body;
-
-//   let sql = 'INSERT INTO books (author, title, image_url, decription) VALUES ($1, $2, $3, $4) RETURNING id;';
-
-// let safeValues = [author title, image, description];
-
-// client.query(sql, safeValues)
-// .then(results => {
-//   console.log('sql results', results.rows[0].id);
-//   let id = results.rows[0].id;
-//   response.status(200).redirect(`/boos/${id}`);
-// })
-
-// }
-
-// function updateBook(request, response) {
-//   let id = request.params.id;
-//   let { title, description...function.} = request.body;
-//   let sql = 'UPDATE books SET title= $1, description= $2 WHERE id =$6';
-//   let safeValues = { title, description, };
-
-//   client.query(sql, safeValues)
-//     .then(res => {
-//       response.status(200).redirect('/');
-//     })
-// }
+  client.query(sql, safeValues)
+    .then(res => {
+      response.status(200).redirect('/');
+    })
+}
 
 function Book(obj) {
 
@@ -176,11 +153,11 @@ function Book(obj) {
   }
 
   this.title = obj.title ? obj.title : 'no title available';
-  this.image = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
-  this.authors = obj.authors ? obj.authors[0] : 'no author available';
+  this.image_url = obj.imageLinks ? obj.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.author = obj.authors ? obj.authors[0] : 'no author available';
   this.description = obj.description ? obj.description : 'no description available';
   this.isbn = obj.industryIdentifiers[0].identifier;
-  this.bookshelf = [];
+  this.bookshelf = '';
 
 }
 
@@ -188,10 +165,6 @@ app.use('*', (request, response) => {
   response.status(404).send('page not found');
 });
 
-// // turn on the server
-// app.listen(PORT, () => {
-//   console.log(`listening on ${PORT}`);
-// });
 
 client.connect()
   .then(() => {
