@@ -10,8 +10,27 @@
   <link rel="stylesheet" href="/styles/modules.css">
 </head>
 <body>
-  
-  <h1>Hello World</h1>
-  
+  <main>
+    <header>
+      <%- include('pages/layout/header.ejs') %>
+      <nav>
+
+      </nav>
+    </header>
+    <section class='selected-books'>
+      <ul id='book-list'>
+        <% results.forEach(books => { %>
+          <li class='book-item' data-id="<%= books.id %>">
+            <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
+            <div id='info'>
+              <h3><%= book.title %></h3>
+              <p><%= book.authors %></p>
+            </div>
+          <p id='description'><%= book.description %></p>
+          </li>
+        })
+      </ul>
+    </section>
+  </main>
 </body>
 </html>
