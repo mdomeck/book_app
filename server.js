@@ -8,6 +8,8 @@ require('ejs');
 const superagent = require('superagent');
 
 const pg = require('pg');
+const { response } = require('express');
+
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', error => {
   console.log('ERROR', error);
@@ -32,6 +34,7 @@ app.get ('/app', showResults);
 app.post ('/add', addBook);
 app.get ('/searches/new', renderSearchPage);
 app.post ('/searches', collectSearchResults);
+app.post('/addbook', addBookToFavorites);
 
 
 function getAllFromDatabase (request, response)
@@ -131,6 +134,26 @@ superagent.get(url)
   })
 }
 
+// function addBookToFavorites(request, response){
+//   console.log('this is my form data from my add to favs', request.body);
+
+//   let {author, title, image, description} = request.body;
+
+//   let sql = 'INSERT INTO books (author, title, image_url, decription) VALUES ($1, $2, $3, $4) RETURNING id;';
+
+// let safeValues = [author title, image, description];
+
+// client.query(sql, safeValues)
+// .then(results => {
+//   console.log('sql results', results.rows[0].id);
+//   let id = results.rows[0].id;
+//   response.status(200).redirect(`/boos/${id}`);
+// })
+
+}
+
+
+
   function Book(obj){
 
     let str = obj.imageLinks.smallThumbnail;
@@ -144,8 +167,8 @@ superagent.get(url)
     this.authors = obj.authors ? obj.authors[0] : 'no author available';
     this.description = obj.description ? obj.description : 'no description available';
     this.isbn = obj.industryIdentifiers[0].identifier;
-    // this.bookshelf = obj.industryIdentifiers.categories[0];
-    // console.log(obj.industryIdentifiers.categories[0]);
+    this.bookshelf = [];
+    
   }
 
 app.use('*', (request, response) => {
