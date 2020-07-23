@@ -17,11 +17,11 @@
           <p><%= bookSelection.isbn %></p>
           <p>Bookshelf: <%= bookSelection.bookshelf %></p>
         </li>
+        <%- include('edit')%>
+  
+      <button id="reveal" onclick="" type="submit">Update Book</button>
       </ul>
 
-      <%- include('edit')%>
-
-    <button id="reveal" onclick="" type="submit">Update Book</button>
     </section>
   </main>
 </body>
