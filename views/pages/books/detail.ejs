@@ -1,36 +1,36 @@
-
 <html>
+
 <body>
   <main>
 
     <a href="../">Return to Home</a>
 
-<section>
-<ul class="result">
-  <li>
-  <img id='image' src="<%= bookSelection.image_url %>" />
-  <div id='info'>
-    <h3><%= bookSelection.title %></h3>
-    <p><%= bookSelection.author %></p>
-  </div>
-  <p id='description'><%= bookSelection.description %></p>
-  <p><%= bookSelection.isbn %></p>
-  <p>Bookshelf: <%= bookSelection.bookshelf %></p>
-  </li>
-</ul>
+    <section>
+      <ul class="result">
+        <li>
+          <img id='image' src="<%= bookSelection.image_url %>" />
+          <div id='info'>
+            <h3><%= bookSelection.title %></h3>
+            <p><%= bookSelection.author %></p>
+          </div>
+          <p id='description'><%= bookSelection.description %></p>
+          <p><%= bookSelection.isbn %></p>
+          <p>Bookshelf: <%= bookSelection.bookshelf %></p>
+        </li>
+      </ul>
 
-<h2>Update Book</h2>
-  <form action="/update/<%= bookSelection.id%>?_method=PUT" method="post">
-    <input type="text" name='title' value='<%bookSelection.title %>' placeholder="Book Name" />
-    <input type="text" name='author' value='<%bookSelection.author %>' placeholder="Book Name" />
-    <input name='description' value='<%bookSelection.description %>' placeholder="Description of the book" />
-    <input type="text" name='isbn' value='<%bookSelection.isbn %>' placeholder="isbn number"/>
-        <input type="text" name='bookshelf' value='<%bookSelection.bookshelf %>' placeholder="bookshelf"/>
-        <button type="submit">Update this book</button>
-      </form>
+      <%- include('edit')%>
+
+    <button id="reveal" onclick="" type="submit">Update Book</button>
     </section>
-   </main>
-     </body>
-     </html>
+  </main>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>$("#reveal").click(() => {
+  $('#hiddenForm').show()
+});
 
- 
+
+</script>
+
+</html>

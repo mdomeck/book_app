@@ -2,21 +2,13 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Collection</title>
-  <link rel="stylesheet" href="/styles/reset.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/modules.css">
+  <%- include('../layout/head')%>
 </head>
 
 <body>
   <main>
     <header>
-      <h1>Best Books!</h1>
-     
-      <a href="searches/new">Search New Book</a>     
+      <%- include('../layout/header') %>    
     </header>
     <section class='selected-books'>
       <% let counter = 0 %>
