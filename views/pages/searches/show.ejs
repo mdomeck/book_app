@@ -2,31 +2,34 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles/reset.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/modules.css">
-  <title>Book Collection</title>
+  <%- include('../../layout/head')%>
 </head>
 
 <body>
-  <header id="search-header">
-    <div id='title'>Best Books!</div>
-    <nav></nav>
+  <header>
+      <%- include('../../layout/header') %>  
   </header>
 
   <main id='main'>
     <% searchResults.forEach(book => { %>
     <div class="result">
-      <img id='image' src="<%= book.image %>" alt="<%= book.image %>" />
+      <img id='image' src="<%= book.image_url %>" alt="<%= book.image_url %>" />
       <div id='info'>
         <h3><%= book.title %></h3>
-        <p><%= book.authors %></p>
+        <p><%= book.author %></p>
       </div>
     <p id='description'><%= book.description %></p>
   </div>
+
+<form action="/addbook" method="POST">
+  <input type="hidden" name="title" value="<%= book.title %>" />
+  <input type="hidden" name="author" value="<%= book.author %>" />
+  <input type="hidden" name="description" value="<%= book.description %>" />
+  <input type="hidden" name="image_url" value="<%= book.image_url %>" />
+  <input type="hidden" name="bookshelf" value="" />
+  <button type="submit">Add To Favorites</button>
+</form>
+
     <%})%>
   </main>
 

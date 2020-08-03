@@ -1,0 +1,13 @@
+
+
+<div id="hiddenForm" style="display:none" ;>
+  <form action="/update/<%= bookSelection.id%>?_method=PUT" method="post">
+    <input type="text" name='title' value='<%= bookSelection.title %>' placeholder="<%= bookSelection.title%>" />
+    <input type="text" name='author' value='<%= bookSelection.author %>' placeholder="<%= bookSelection.author%>" />
+    <input type="text" name='isbn' value='<%= bookSelection.isbn %>' placeholder="isbn number" /> 
+    <input name='description' value='<%= bookSelection.description %>' placeholder="<%= bookSelection.description%>" />
+    <input type="text" name='bookshelf' value='<%= bookSelection.bookshelf %>' placeholder="bookshelf"
+      placeholder="<%= bookSelection.bookshelf%>" />
+    <button type="submit">Submit Update</button>
+  </form>
+</div>

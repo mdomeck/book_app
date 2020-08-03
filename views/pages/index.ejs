@@ -2,36 +2,35 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Collection</title>
-  <link rel="stylesheet" href="/styles/reset.css">
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/layout.css">
-  <link rel="stylesheet" href="/styles/modules.css">
+  <%- include('../layout/head')%>
 </head>
 <body>
   <main>
     <header>
-      <h1>Beat Books!</h1>
-      <nav>
-      </nav>
+      <%- include('../layout/header') %>    
     </header>
-    <section class='selected-books'>    
+    <section class='selected-books'>
+      <% let counter = 0 %>
+      
+      
       <ul id='book-list'>
-        <% let counter = 0; %>
+        
+        
         <% results.forEach(books => { %>
           <li class='book-item' data-id="<%= books.id %>">
-            <img id='image' src="<%= books.image %>" alt="<%= books.image %>" />
+            <img id='image' src="<%= books.image_url %>" alt="<%= books.image_url %>" />
             <div id='info'>
               <h3><%= books.title %></h3>
-              <p><%= books.authors %></p>
+              <p><%= books.author %></p>
             </div>
-          </li>
-        </ul>
-        <% counter++; %>
-        <%  }) %>
-        <span class='counter'><%= counter %>Saved Books</span>
+            
+        </li>
+
+      </ul>
+      <% counter++; %>
+      <%  }) %>
+     
+      <span class='counter'><%= counter %>Saved Books</span>
     </section>
   </main>
 </body>
