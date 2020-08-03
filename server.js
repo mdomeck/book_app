@@ -86,6 +86,7 @@ function addBook(request, response) {
 
   let safeValues = [author, title, isbn, image_url, description, bookshelf];
 
+
   client.query(sql, safeValues)
     .then(results => {
       let books_id = results.rows[0].id;
